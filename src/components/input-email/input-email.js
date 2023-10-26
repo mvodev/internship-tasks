@@ -19,24 +19,22 @@ class InputEmail extends Component {
         this.hideEmailTip();
     }
 
+    showValidationError = (errorDescription) => {
+        this.showEmailError(errorDescription);
+            this.hideEmailTip();
+            this.inputEmail.dispatchEvent(new CustomEvent(this.eventName,{
+                detail:{
+                    email:false
+                }
+            }));
+    }
+
     handleEmailInput = (event) => {
         const emailRegExp = /^([a-zA-Z\-0-9_]+|([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)+)|(".+"))@(([a-zA-Z\-0-9]+\.)+[a-zA-Z\-0-9]{2,})$/;
         if (!emailRegExp.test(event.target.value)) {
-            this.showEmailError('Введите email');
-            this.hideEmailTip();
-            this.inputEmail.dispatchEvent(new CustomEvent(this.eventName,{
-                detail:{
-                    email:false
-                }
-            }));
+            this.showValidationError('Введите email');
         } else if (event.target.value.length > 255) {
-            this.showEmailError('Введите значение менее 255 символов');
-            this.hideEmailTip();
-            this.inputEmail.dispatchEvent(new CustomEvent(this.eventName,{
-                detail:{
-                    email:false
-                }
-            }));
+            this.showValidationError('Введите значение менее 255 символов');
         } else {
             this.hideEmailError();
             this.showEmailTip();

@@ -35,10 +35,9 @@ class InputFile extends Component {
                     file:true
                 }
             }));
-            for (const file of files) {
-                const fileSize = file['size'];
-                const fileExtension = file['name'].split('.')[1];
-                this.appendFileInfo(fileExtension,fileSize);
+            for (const { size, name } of files) {
+                const fileExtension = name.substring(name.lastIndexOf('.') + 1);
+                this.appendFileInfo(fileExtension,size);
             }
         } else {
             this.inputFile.dispatchEvent(new CustomEvent(this.eventName,{
@@ -51,7 +50,7 @@ class InputFile extends Component {
 
     hideInputFilesError = () => {
         this.fileError.textContent = '';
-        this.fileError.classList.add('form_invisible-elem');
+        this.fileError.classList.add('input-file_invisible-elem');
     }
 
     removeFileInfoNodes = () => {
@@ -65,11 +64,6 @@ class InputFile extends Component {
     showInputFilesError = (errorDescription) => {
         this.fileError.classList.remove('input-file_invisible-elem');
         this.fileError.textContent = errorDescription;
-    }
-
-    hideInputFilesError = () => {
-        this.fileError.textContent = '';
-        this.fileError.classList.add('input-file_invisible-elem');
     }
 
     appendFileInfo = (fileExtension,fileSize) => {
